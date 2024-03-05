@@ -2,17 +2,16 @@
 
 import {ClipLoader} from "react-spinners";
 
-const override = {
+const cssOverride = {
     display: 'block',
     margin: '100px auto'
 };
 
-const Spinner = ({ loading = true }: { loading: boolean}) => {
-    console.log('dd', loading)
+const Spinner = ({ loading = true, override }: { loading: boolean, override?: {}}) => {
     return <ClipLoader
         color={'#3b82f6'}
         loading={loading}
-        cssOverride={override}
+        cssOverride={override || cssOverride}
         size={150}
         aria-label={"Loading Spinner"}
     />
