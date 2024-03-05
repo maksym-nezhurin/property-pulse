@@ -8,8 +8,7 @@ export const metadata = {
   description: 'Main description'
 }
 
-export default function Home() {
-  console.log(process.env.MONGODB_URI)
+export default async function Home() {
   return (
     <main className="">
       <Hero />
