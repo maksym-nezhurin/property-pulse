@@ -8,10 +8,7 @@ export const metadata = {
 }
 
 export default async function PropertiesPage() {
-    // console.log('before call!');
     const properties = await fetchProperties() || [];
-    // console.log('properties', properties);
-    // console.log('properties2', properties2)
 
     // @ts-ignore
     properties.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));

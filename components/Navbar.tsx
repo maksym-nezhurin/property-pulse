@@ -186,22 +186,23 @@ export const Navbar = () => {
 												aria-labelledby="user-menu-button"
 												tabIndex={-1}
 											>
-												<a
+												<Link
 													href="/profile"
 													className="block px-4 py-2 text-sm text-gray-700"
 													role="menuitem"
 													tabIndex={-1}
 													id="user-menu-item-0"
-												>Your Profile</a
+												>Your Profile</Link
 												>
-												<a
-													href="/saved-properties"
+												<button
 													className="block px-4 py-2 text-sm text-gray-700"
 													role="menuitem"
 													tabIndex={-1}
 													id="user-menu-item-2"
-												>Saved Properties</a
-												>
+													onClick={() => {
+														setProfileMenuOpen(false)
+													}}
+												>Saved Properties</button>
 												<button
 													onClick={() => {
 														setProfileMenuOpen(false);

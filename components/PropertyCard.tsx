@@ -6,15 +6,11 @@ export const PropertyCard = (props: any) => {
 	const {
 		_id,
 		images,
-		owner,
 		name,
 		type,
-		description,
 		location: {
 			street,
-			city,
-			state,
-			zipcode
+			city
 		},
 		beds,
 		baths,
@@ -24,16 +20,12 @@ export const PropertyCard = (props: any) => {
 			weekly,
 			monthly,
 			nightly
+		} = {
+			weekly: '',
+			monthly: '',
+			nightly: ''
 		},
-		seller_info: {
-			name: sellerName,
-			email,
-			phone
-		},
-		is_featured,
-		createdAt,
-		updatedAt } = props;
-	// console.log('props', rates)
+	} = props;
 
 	const getRateDisplay = () => {
 		if (monthly) {
@@ -103,7 +95,7 @@ export const PropertyCard = (props: any) => {
 				<div className="flex flex-col lg:flex-row justify-between mb-4">
 					<div className="flex align-middle gap-2 mb-4 lg:mb-0">
 						<FaMapMarker className={'inline mr-2 text-orange-700'}/>
-						<span className="text-orange-700"> {props.location.city }</span>
+						<span className="text-orange-700"> { city }, { street }</span>
 					</div>
 					<Link
 						href={`/properties/${_id}`}
