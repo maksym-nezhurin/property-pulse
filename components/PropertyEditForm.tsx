@@ -1,68 +1,50 @@
 'use client';
 import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from 'react-toastify';
+import { fetchProperty } from "@/utils/requests";
+import {IPropertyState} from "@/components/PropertyAddForm";
 
-export interface IPropertyState {
-    type: string;
-    name: string;
-    description: string;
-    amenities: string[];
-    location: {
-        street: string
-        city: string
-        state: string
-        zipcode: string
-    },
-    images: string[],
-    beds: number,
-    baths: number,
-    square_feet: number,
-    rates: {
-        weekly: string,
-        monthly: string,
-        nightly: string
-    },
-    seller_info: {
-        name: string,
-        email: string,
-        phone: string
-    }
-}
 
-export const PropertyAddForm = () => {
+type IPropertyStateWithoutImages = Omit<IPropertyState, 'images'>
+
+export const PropertyEditForm = () => {
+    const { id } = useParams();
+    const router = useRouter();
+
     const [mounted, setMounted] = useState(false);
-    const [fields, setFields] = useState<IPropertyState>({
-        type: 'Apartment',
-        name: 'Test Property',
-        description: 'ss',
+    const [fields, setFields] = useState<IPropertyStateWithoutImages>({
+        type: '',
+        name: '',
+        description: '',
         location: {
-            street: 'Chevmoskiego',
-            city: 'Krakow',
-            state: 'Dolno',
-            zipcode: '31-340'
+            street: '',
+            city: '',
+            state: '',
+            zipcode: ''
         },
-        images: [],
-        beds: 3,
-        baths: 2,
-        square_feet: 1800,
+        beds: 0,
+        baths: 0,
+        square_feet: 0,
         amenities: [],
         rates: {
             weekly: '',
-            monthly: '2000',
+            monthly: '',
             nightly: ''
         },
         seller_info: {
             name: '',
-            email: 'mn@sd.com',
+            email: '',
             phone: ''
         }
     })
 
+    const [loading, setLoading] = useState(true)
     const handleChange = (e: any) => {
         const { name, value } = e.target;
-        // setFields()
         if ( name.includes('.')) {
             const [outerKey, innerKey] = name.split('.');
-            console.log(outerKey, innerKey);
+
             setFields((prevFields) => ({
                 ...prevFields,
                 [outerKey]: {
@@ -100,32 +82,65 @@ export const PropertyAddForm = () => {
             amenities: updatedAmenities
         }))
     }
-    const handleImageChange = (e: any) => {
-        const { files } = e.target;
-
-        // clone images array
-        const updatedImages = [...fields.images];
-
-        // add new files to array
-        for (const file of files) {
-            updatedImages.push(file);
-        }
-
-        setFields((prevFields) => ({
-            ...prevFields,
-            images: updatedImages
-        }))
-    }
 
     useEffect(() => {
         setMounted(true);
+
+        // Fetch property data from
+        const fetchPropertyData = async () => {
+            try {
+                const propertyData = await fetchProperty(id as string);
+                // Check rates for null, if so then make empty string
+
+                if(propertyData && propertyData.rates) {
+                    const defaultRates = { ...propertyData.rates };
+
+                    for (const rate in defaultRates) {
+                        if (defaultRates[rate] === null) {
+                            defaultRates[rate] = '';
+                        }
+                    }
+                }
+
+                setFields(propertyData);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchPropertyData();
     }, [])
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        try {
+            const res = await fetch(`/api/properties/${id}`, {
+                method: 'PUT',
+                body: formData
+            })
+
+            if (res.status === 200) {
+                router.push(`/properties/${id}`)
+            } else if (res.status === 401 || res.status === 403) {
+                toast.error('Permission denied')
+            } else {
+                toast.error('Something went wrong')
+            }
+        } catch (error) {
+            console.log('Error', error)
+            toast.error('Something went wrong')
+        }
+    }
+
     return (
-        mounted && (
-            <form action="/api/properties" method='POST' encType="multipart/form-data">
+        mounted && !loading && (
+            <form onSubmit={handleSubmit}>
                 <h2 className="text-3xl text-center font-semibold mb-6">
-                    Add Property
+                    Edit Property
                 </h2>
 
                 <div className="mb-4">
@@ -557,27 +572,12 @@ export const PropertyAddForm = () => {
                     />
                 </div>
 
-                <div className="mb-4">
-                    <label htmlFor="images" className="block text-gray-700 font-bold mb-2"
-                    >Images (Select up to 4 images)</label
-                    >
-                    <input
-                        type="file"
-                        id="images"
-                        name="images"
-                        className="border rounded w-full py-2 px-3"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        multiple
-                    />
-                </div>
-
                 <div>
                     <button
                         className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
                         type="submit"
                     >
-                        Add Property
+                        Edit Property
                     </button>
                 </div>
             </form>

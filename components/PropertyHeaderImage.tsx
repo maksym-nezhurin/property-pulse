@@ -7,7 +7,7 @@ export const PropertyHeaderImage = (props: { image: string }) => {
         <section>
             <div className="container-xl m-auto">
                 <div className="grid grid-cols-1">
-                    <Image src={`/images/properties/${image}`}
+                    <Image src={image}
                            alt={''}
                            className='object-cover h-[400px] w-full'
                            height={0}

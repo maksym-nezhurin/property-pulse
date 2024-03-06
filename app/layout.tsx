@@ -2,6 +2,8 @@ import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import {Navbar} from "@/components/Navbar";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "../assets/styles/globals.css";
 import AuthProvider from "@/components/AuthProvider";
 
@@ -23,6 +25,7 @@ export default function RootLayout({
           <body className={inter.className}>
           <Navbar />
           <div>{children}</div>
+          <ToastContainer />
           </body>
           </html>
       </AuthProvider>

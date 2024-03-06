@@ -59,16 +59,16 @@ export const PropertyDetails = ({ property }: { property: IProperty}) => {
                     className="flex justify-center gap-4 text-blue-500 mb-4 text-xl space-x-9"
                 >
                     <p>
-                        <FaBed className={'inline-block mr-2'}/> 3
+                        <FaBed className={'inline-block mr-2'}/>
                         <span className="hidden sm:inline">{property.beds}</span>
                     </p>
                     <p>
-                        <FaBath className={'inline-block mr-2'} /> 2
+                        <FaBath className={'inline-block mr-2'} />
                         <span className="hidden sm:inline">{property.baths}</span>
                     </p>
                     <p>
                         <FaRulerCombined className={'inline-block mr-2'} />
-                        1,500 <span className="hidden sm:inline">{property.square_feet}</span>
+                        <span className="hidden sm:inline">{property.square_feet}</span>
                     </p>
                 </div>
                 <p className="text-gray-500 mb-4 text-center">
