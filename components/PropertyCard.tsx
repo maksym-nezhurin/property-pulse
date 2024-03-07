@@ -108,3 +108,4 @@ export const PropertyCard = (props: any) => {
 		</div>
 	)
 }
+
