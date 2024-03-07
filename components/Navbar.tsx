@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { usePathname } from "next/navigation";
 
 import Image from 'next/image';
@@ -8,13 +8,26 @@ import Link from 'next/link';
 import logo from '@/assets/images/logo-white.png';
 import profileDefault from '@/assets/images/profile.png';
 import { FaGoogle } from 'react-icons/fa';
+import {signIn, signOut, useSession, getProviders, LiteralUnion, ClientSafeProvider} from "next-auth/react";
+import {BuiltInProviderType} from "next-auth/providers/index";
 
 export const Navbar = () => {
+	const { data: session} = useSession();
+	const profileImage = session?.user?.image || profileDefault;
 	const pathname = usePathname();
-	const [isLoggedIn, setIsLoggedIn] = useState(true);
-
+	const [providers, setProviders] = useState(null);
 	const [isMobileMenuOpen, setMobileMenuOpen] = useState<Boolean>(false);
 	const [isProfileMenuOpen, setProfileMenuOpen] = useState<Boolean>(false);
+
+	useEffect(() => {
+		const setAuthProviders = async () => {
+			const res: Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider> | null = await getProviders();
+			setProviders(res);
+		}
+
+		setAuthProviders();
+	}, [])
+
 	return (<nav className="bg-blue-700 border-b border-blue-500">
 			<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 				<div className="relative flex h-20 items-center justify-between">
@@ -63,7 +76,7 @@ export const Navbar = () => {
 							>
 						</Link>
 
-						<div className="md:ml-6 md:block">
+						<div className={`hidden md:ml-6 md:block`}>
 							<div className="flex space-x-2">
 								<Link
 									href="/"
@@ -75,7 +88,7 @@ export const Navbar = () => {
 									className={`${pathname === '/properties' ? 'bg-black' : '' } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
 								>Properties</Link>
 								{
-									isLoggedIn && (
+									session && (
 										<Link
 											href="/properties/add"
 											className={`${pathname === '/properties/add' ? 'bg-black' : '' } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
@@ -87,22 +100,23 @@ export const Navbar = () => {
 					</div>
 
 					{
-						!isLoggedIn && (
+						!session && (
 							<div className="md:block md:ml-6">
 								<div className="flex items-center">
-									<button
-										className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-									>
-										<FaGoogle className={"mr-2 text-white"} />
-										<i className="fa-brands fa-google text-white mr-2"></i>
-										<span>Login or Register</span>
-									</button>
+									{ providers && Object.values(providers).map((provider: any, index) => (
+										<button
+											key={index}
+											onClick={() => signIn(provider.id)}
+											className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
+										>
+											<FaGoogle className={"mr-2 text-white"}/>
+											<span>Login or Register</span>
+										</button>
+									))}
 								</div>
 							</div>
 						)
 					}
-
-
 
 
 					<div
@@ -139,7 +153,7 @@ export const Navbar = () => {
 						</a>
 
 						{
-							isLoggedIn && (
+							session && (
 								<div className="relative ml-3">
 									<div>
 										<button
@@ -154,7 +168,9 @@ export const Navbar = () => {
 											<span className="sr-only">Open user menu</span>
 											<Image
 												className="h-8 w-8 rounded-full"
-												src={profileDefault}
+												width={25}
+												height={25}
+												src={profileImage}
 												alt=""
 											/>
 										</button>
@@ -170,29 +186,33 @@ export const Navbar = () => {
 												aria-labelledby="user-menu-button"
 												tabIndex={-1}
 											>
-												<a
+												<Link
 													href="/profile"
 													className="block px-4 py-2 text-sm text-gray-700"
 													role="menuitem"
 													tabIndex={-1}
 													id="user-menu-item-0"
-												>Your Profile</a
+												>Your Profile</Link
 												>
-												<a
-													href="/saved-properties"
+												<button
 													className="block px-4 py-2 text-sm text-gray-700"
 													role="menuitem"
 													tabIndex={-1}
 													id="user-menu-item-2"
-												>Saved Properties</a
-												>
-												<a
-													href="#"
+													onClick={() => {
+														setProfileMenuOpen(false)
+													}}
+												>Saved Properties</button>
+												<button
+													onClick={() => {
+														setProfileMenuOpen(false);
+														signOut();
+													}}
 													className="block px-4 py-2 text-sm text-gray-700"
 													role="menuitem"
 													tabIndex={-1}
 													id="user-menu-item-2"
-												>Sign Out</a
+												>Sign Out</button
 												>
 											</div>
 										)
@@ -218,7 +238,7 @@ export const Navbar = () => {
 						>Properties</Link
 						>
 						{
-							isLoggedIn && (
+							session && (
 								<Link
 									href="/properties/add"
 									className={`${pathname === '/properties/add' ? 'bg-black' : '' } text-white block rounded-md px-3 py-2 text-base font-medium`}
@@ -226,13 +246,18 @@ export const Navbar = () => {
 							)
 						}
 
-						<button
-							className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-4"
-						>
-							<FaGoogle className={'mr-2'} />
-							<i className="fa-brands fa-google mr-2"></i>
-							<span>Login or Register</span>
-						</button>
+						{ !session && providers && Object.values(providers).map((provider: any, index: number) => {
+							return (
+								<button
+									key={index}
+									onClick={() => signIn(provider.id)}
+									className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
+								>
+									<FaGoogle className={"mr-2 text-white"}/>
+									<span>Login or Register</span>
+								</button>
+							);
+						})}
 					</div>
 				</div>
 			)}

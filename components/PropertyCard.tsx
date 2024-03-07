@@ -6,15 +6,11 @@ export const PropertyCard = (props: any) => {
 	const {
 		_id,
 		images,
-		owner,
 		name,
 		type,
-		description,
 		location: {
 			street,
-			city,
-			state,
-			zipcode
+			city
 		},
 		beds,
 		baths,
@@ -24,16 +20,12 @@ export const PropertyCard = (props: any) => {
 			weekly,
 			monthly,
 			nightly
+		} = {
+			weekly: '',
+			monthly: '',
+			nightly: ''
 		},
-		seller_info: {
-			name: sellerName,
-			email,
-			phone
-		},
-		is_featured,
-		createdAt,
-		updatedAt } = props;
-	// console.log('props', rates)
+	} = props;
 
 	const getRateDisplay = () => {
 		if (monthly) {
@@ -47,7 +39,7 @@ export const PropertyCard = (props: any) => {
 	return (
 		<div className="rounded-xl shadow-md relative">
 			<Image
-				src={`/images/properties/${images[0]}`}
+				src={images[0]}
 				alt="image"
 				width={100}
 				height={100}
@@ -103,10 +95,10 @@ export const PropertyCard = (props: any) => {
 				<div className="flex flex-col lg:flex-row justify-between mb-4">
 					<div className="flex align-middle gap-2 mb-4 lg:mb-0">
 						<FaMapMarker className={'inline mr-2 text-orange-700'}/>
-						<span className="text-orange-700"> {props.location.city }</span>
+						<span className="text-orange-700"> { city }, { street }</span>
 					</div>
 					<Link
-						href={`/property/${_id}`}
+						href={`/properties/${_id}`}
 						className="h-[36px] bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-center text-sm"
 					>
 						Details
@@ -116,3 +108,4 @@ export const PropertyCard = (props: any) => {
 		</div>
 	)
 }
+

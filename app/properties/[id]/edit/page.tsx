@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import {PropertyAddForm} from "@/components/PropertyAddForm";
+import {PropertyEditForm} from "@/components/PropertyEditForm";
+
 
 export const metadata = {
-  title: 'Add property',
+  title: 'Edit property',
   description: 'Main description'
 }
 
@@ -11,7 +11,7 @@ export default function PropertiesAddPage() {
     <section className="bg-blue-50">
       <div className="container m-auto max-w-2xl py-24">
           <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
-              <PropertyAddForm />
+              <PropertyEditForm />
           </div>
       </div>
     </section>
