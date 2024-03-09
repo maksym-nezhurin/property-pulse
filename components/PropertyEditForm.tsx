@@ -102,7 +102,7 @@ export const PropertyEditForm = () => {
                     }
                 }
 
-                setFields(propertyData);
+                setFields(propertyData!);
             } catch (error) {
                 console.log(error);
             } finally {

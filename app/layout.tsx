@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../assets/styles/globals.css";
 import AuthProvider from "@/components/AuthProvider";
+import {GlobalProvider} from "@/context/global";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,14 +21,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <AuthProvider>
-          <html lang="en">
-          <body className={inter.className}>
-          <Navbar />
-          <div>{children}</div>
-          <ToastContainer />
-          </body>
-          </html>
-      </AuthProvider>
+      <GlobalProvider>
+          <AuthProvider>
+              <html lang="en">
+              <body className={inter.className}>
+              <Navbar />
+              <div>{children}</div>
+              <ToastContainer />
+              </body>
+              </html>
+          </AuthProvider>
+      </GlobalProvider>
   );
 }

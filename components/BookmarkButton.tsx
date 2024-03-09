@@ -3,10 +3,11 @@ import {useState, useEffect} from "react";
 import {useSession} from "next-auth/react";
 import {toast} from "react-toastify";
 import {FaBookmark} from "react-icons/fa";
+import {IProperty} from "@/interfaces/IProperty";
 
-export const BookmarkButton = ({property}) => {
+export const BookmarkButton = ({property}: { property: IProperty}) => {
     const {data: session} = useSession();
-    const userId = session?.user.id;
+    const userId = session?.user?.id;
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -29,7 +30,6 @@ export const BookmarkButton = ({property}) => {
 
                 if (res.status === 200) {
                     const data = await res.json();
-                    console.log('data', data);
                     setIsBookmarked(data.isBookmarked);
                 }
             } catch (error) {

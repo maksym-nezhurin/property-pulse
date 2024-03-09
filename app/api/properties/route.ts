@@ -2,22 +2,33 @@ import connectDB from "@/config/database";
 import Property from "@/models/Property";
 import {getSessionUser} from "@/utils/getSessionUser";
 import cloudinary from "@/config/cloudinary";
+import {NextRequest} from "next/server";
 
 // GET /api/properties
-export const GET = async (request: any) => {
+export const GET = async (request: NextRequest) => {
     try {
         await connectDB();
 
-        const properties = await Property.find({});
+        const page: number = request.nextUrl.searchParams.get('page') || 1;
+        const pageSize: number = request.nextUrl.searchParams.get('pagesize') || 3;
 
-        return new Response(JSON.stringify(properties), {status: 200})
+        const skip = (page - 1) * pageSize;
+        const totalProperties = await Property.countDocuments({});
+
+        const properties = await Property.find({}).skip(skip).limit(pageSize);
+        const result = {
+            total: totalProperties,
+            properties
+        }
+
+        return new Response(JSON.stringify(result), {status: 200})
     } catch (error) {
         console.log(error);
         return new Response('Something Went Wrong', {status: 500})
     }
 }
 
-export const POST = async (request: Request) => {
+export const POST = async (request: NextRequest) => {
     try {
         await connectDB();
 
@@ -33,7 +44,7 @@ export const POST = async (request: Request) => {
         const images = formData
             .getAll('images')
             .filter((image) => image.name !== '');
-
+        console.log('image', images)
         // Create property data object for database
         const propertyData = {
             type: formData.get('type'),

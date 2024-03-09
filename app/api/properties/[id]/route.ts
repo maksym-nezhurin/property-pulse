@@ -58,7 +58,7 @@ export const DELETE = async (request: Request, { params }: IParams) => {
     }
 }
 
-export const PUT = async (request: Request, { params }) => {
+export const PUT = async (request: Request, { params }: IParams) => {
     try {
         await connectDB();
 
