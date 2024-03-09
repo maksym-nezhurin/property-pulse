@@ -3,10 +3,7 @@ import Link from "next/link";
 import {fetchProperties} from "@/utils/requests";
 
 export const HomeProperties = async () => {
-	const properties = await fetchProperties();
-	const recentProps = properties
-		.sort(() => Math.random() - Math.random())
-		.slice(0, 3);
+	const { properties} = await fetchProperties({});
 
 	return (
 		<>
@@ -16,7 +13,7 @@ export const HomeProperties = async () => {
 						Recent Properties
 					</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-						{recentProps.length === 0 ? (<p>No Properties Found</p>) : recentProps.map((property) => (<PropertyCard key={property._id } {...property} />))}
+						{properties.length === 0 ? (<p>No Properties Found</p>) : properties.map((property) => (<PropertyCard key={property._id } {...property} />))}
 					</div>
 				</div>
 			</section>

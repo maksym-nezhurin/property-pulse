@@ -1,41 +1,15 @@
 'use client';
-import { useState, useEffect } from "react";
-
-export interface IPropertyState {
-    type: string;
-    name: string;
-    description: string;
-    amenities: string[];
-    location: {
-        street: string
-        city: string
-        state: string
-        zipcode: string
-    },
-    images: string[],
-    beds: number,
-    baths: number,
-    square_feet: number,
-    rates: {
-        weekly: string,
-        monthly: string,
-        nightly: string
-    },
-    seller_info: {
-        name: string,
-        email: string,
-        phone: string
-    }
-}
+import React, { useState, useEffect } from "react";
+import {IPropertyState} from "@/interfaces/IProperty";
 
 export const PropertyAddForm = () => {
     const [mounted, setMounted] = useState(false);
     const [fields, setFields] = useState<IPropertyState>({
         type: 'Apartment',
-        name: 'Test Property',
-        description: 'ss',
+        name: 'Property',
+        description: 'Great description for new apartment',
         location: {
-            street: 'Chevmoskiego',
+            street: 'Chewmoskiego',
             city: 'Krakow',
             state: 'Dolno',
             zipcode: '31-340'
@@ -57,12 +31,12 @@ export const PropertyAddForm = () => {
         }
     })
 
-    const handleChange = (e: any) => {
-        const { name, value } = e.target;
-        // setFields()
+    const handleChange = (e: React.SyntheticEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.currentTarget;
+
         if ( name.includes('.')) {
             const [outerKey, innerKey] = name.split('.');
-            console.log(outerKey, innerKey);
+
             setFields((prevFields) => ({
                 ...prevFields,
                 [outerKey]: {

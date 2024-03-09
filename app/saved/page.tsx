@@ -5,9 +5,10 @@ import {PropertyCard} from "@/components/PropertyCard";
 
 import {toast} from "react-toastify";
 import Spinner from "@/components/Spinner";
-// import { Spinner }
+import {IProperty} from "@/interfaces/IProperty";
+
 export default async function SavedPage()  {
-    const [properties, setProperties] = useState([]);
+    const [properties, setProperties] = useState<IProperty[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -31,7 +32,7 @@ export default async function SavedPage()  {
         }
         fetchSavedProperties();
     }, []);
-    console.log(properties)
+
     return loading ? <Spinner loading={loading} /> : <section className="px-4 py-6">
         <div className="container-xl lg:container m-auto">
             <h2 className="text-3xl font-bold text-blue-500 mb-6 text-center">

@@ -1,23 +1,37 @@
 import {IProperty} from "@/interfaces/IProperty";
 
 const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null;
-
+interface IPropertyResponse {
+    properties: IProperty[]
+    total: number
+}
 // fetch all properties
-async function fetchProperties(): Promise<IProperty[] | []> {
+async function fetchProperties({ page = 1, pageSize = 3}): Promise<IPropertyResponse> {
     try {
         if(!apiDomain) {
-            return []
+            return {
+                properties: [],
+                total: 0
+            }
         }
-        const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/properties`,{ cache:"no-store" });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/properties?page=${page}&pagesize=${pageSize}`,{ cache:"no-store" });
 
         if (!res.ok) {
             throw new Error('Failed to fetch data!')
         }
 
-        return await res.json();
+        const data = await res.json()
+
+        return {
+            properties: data.properties,
+            total: data.total
+        };
     } catch (error) {
         console.log(error);
-        return []
+        return {
+            properties: [],
+            total: 0
+        }
     }
 }
 

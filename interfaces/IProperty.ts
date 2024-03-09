@@ -35,3 +35,30 @@ export interface IProperty {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface IPropertyState {
+    type: string;
+    name: string;
+    description: string;
+    amenities: string[];
+    location: {
+        street: string
+        city: string
+        state: string
+        zipcode: string,
+    },
+    images: string[],
+    beds: number,
+    baths: number,
+    square_feet: number,
+    rates: {
+        weekly: string,
+        monthly: string,
+        nightly: string
+    },
+    seller_info: {
+        name: string,
+        email: string,
+        phone: string
+    }
+}

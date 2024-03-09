@@ -1,8 +1,9 @@
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
+import {NextRequest} from "next/server";
 
 // GET /api/properties/user/:userId
-export const GET = async (request, { params }) => {
+export const GET = async (request: NextRequest, { params }: { params: { userId: string}}) => {
     try {
         await connectDB();
         const { userId } = params;

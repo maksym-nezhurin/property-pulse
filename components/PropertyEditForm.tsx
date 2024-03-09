@@ -3,8 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import { fetchProperty } from "@/utils/requests";
-import {IPropertyState} from "@/components/PropertyAddForm";
-
+import {IPropertyState} from "@/interfaces/IProperty";
 
 type IPropertyStateWithoutImages = Omit<IPropertyState, 'images'>
 
@@ -102,7 +101,7 @@ export const PropertyEditForm = () => {
                     }
                 }
 
-                setFields(propertyData);
+                setFields(propertyData!);
             } catch (error) {
                 console.log(error);
             } finally {

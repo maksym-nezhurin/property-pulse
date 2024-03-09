@@ -8,10 +8,14 @@ import {
     WhatsappIcon,
     EmailIcon
 } from 'react-share';
+import {IProperty} from "@/interfaces/IProperty";
 
-export const ShareButtons = ({property}) => {
+interface ISharedProps {
+    property: IProperty
+}
+export const ShareButtons = ({property}: ISharedProps) => {
     const shareUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/properties/${property._id}`
-    console.log('property', property)
+
     return (
         <>
             <h3 className={'text-xl font-bold text-center pt-2'}>Share this property</h3>

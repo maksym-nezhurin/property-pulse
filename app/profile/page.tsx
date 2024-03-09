@@ -17,7 +17,7 @@ export default async function ProfilePage() {
     const [properties, setProperties] = useState<IProperty[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const handleDeleteProperty = async (propertyId) => {
+    const handleDeleteProperty = async (propertyId: string) => {
         const confirm = window.confirm('Are you sure that you want to delete?');
 
         if (!confirm) {
@@ -44,7 +44,7 @@ export default async function ProfilePage() {
     };
 
     useEffect(() => {
-        const fetchUserProperties = async (userId) => {
+        const fetchUserProperties = async (userId: number) => {
             if (!userId) {
                 return;
             }

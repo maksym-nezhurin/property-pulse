@@ -1,7 +1,7 @@
 'use client'
 
 import {useEffect, useState} from 'react';
-import { usePathname } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,9 +10,11 @@ import profileDefault from '@/assets/images/profile.png';
 import { FaGoogle } from 'react-icons/fa';
 import {signIn, signOut, useSession, getProviders, LiteralUnion, ClientSafeProvider} from "next-auth/react";
 import {BuiltInProviderType} from "next-auth/providers/index";
+import {UnreadMessageCount} from "@/components/UnreadMessageCount";
 
 export const Navbar = () => {
-	const { data: session} = useSession();
+	const { data: session}= useSession();
+	const router = useRouter();
 	const profileImage = session?.user?.image || profileDefault;
 	const pathname = usePathname();
 	const [providers, setProviders] = useState(null);
@@ -144,12 +146,8 @@ export const Navbar = () => {
 									/>
 								</svg>
 							</button>
-							<span
-								className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
-							>
-                2
 
-              </span>
+							<UnreadMessageCount session={session} />
 						</a>
 
 						{
@@ -186,13 +184,16 @@ export const Navbar = () => {
 												aria-labelledby="user-menu-button"
 												tabIndex={-1}
 											>
-												<Link
-													href="/profile"
+												<button
 													className="block px-4 py-2 text-sm text-gray-700"
 													role="menuitem"
 													tabIndex={-1}
 													id="user-menu-item-0"
-												>Your Profile</Link
+													onClick={() => {
+														setProfileMenuOpen(false);
+														router.push('/profile')
+													}}
+												>Your Profile</button
 												>
 												<button
 													className="block px-4 py-2 text-sm text-gray-700"
@@ -200,7 +201,8 @@ export const Navbar = () => {
 													tabIndex={-1}
 													id="user-menu-item-2"
 													onClick={() => {
-														setProfileMenuOpen(false)
+														setProfileMenuOpen(false);
+														router.push('/saved')
 													}}
 												>Saved Properties</button>
 												<button
