@@ -35,7 +35,7 @@ export const Messages = () => {
                 <h1 className="text-3xl font-bold mb-4">Your Messages</h1>
 
                 <div className="space-y-4">
-                    { messages.length === 0 ? (<p>You don't have any message</p>) : (
+                    { messages.length === 0 ? (<p>You dont have any message</p>) : (
                         <div>{
                             messages.map((message) => <Message key={message._id} {...message} />)
                         }</div>

@@ -1,6 +1,6 @@
 'use client'
 
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {usePathname, useRouter} from "next/navigation";
 
 import Image from 'next/image';
@@ -24,12 +24,14 @@ export const Navbar = () => {
 	useEffect(() => {
 		const setAuthProviders = async () => {
 			const res: Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider> | null = await getProviders();
+			// @ts-ignore
 			setProviders(res);
 		}
 
 		setAuthProviders();
 	}, [])
 
+	// @ts-ignore
 	return (<nav className="bg-blue-700 border-b border-blue-500">
 			<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 				<div className="relative flex h-20 items-center justify-between">
@@ -147,7 +149,10 @@ export const Navbar = () => {
 								</svg>
 							</button>
 
-							<UnreadMessageCount session={session} />
+							{
+								// @ts-ignore
+								<UnreadMessageCount session={session}/>
+							}
 						</a>
 
 						{

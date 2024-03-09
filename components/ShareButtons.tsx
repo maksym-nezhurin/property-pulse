@@ -23,18 +23,21 @@ export const ShareButtons = ({property}: ISharedProps) => {
             <div className="flex gap-3 justify-center pb-5">
                 <FacebookShareButton
                     url={shareUrl}
+                    // @ts-ignore
                     quote={property.name}
                     hashtag={`${property?.type?.replace(/\s/g, '')}ForRent`}
                 ><FacebookIcon size={40} round={true} /></FacebookShareButton>
 
                 <TwitterShareButton
                     url={shareUrl}
+                    // @ts-ignore
                     quote={property.name}
                     hashtag={`${property?.type?.replace(/\s/g, '')}ForRent`}
                 ><TwitterIcon size={40} round={true} /></TwitterShareButton>
 
                 <WhatsappShareButton
                     url={shareUrl}
+                    // @ts-ignore
                     quote={property.name}
                     separator={':: '}
                 ><WhatsappIcon size={40} round={true} /></WhatsappShareButton>

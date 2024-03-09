@@ -3,6 +3,7 @@ import { authOptions } from "@/utils/authOptions";
 
 export const getSessionUser = async () => {
     try {
+        // @ts-ignore
         const session = await getServerSession(authOptions);
 
         if (!session || !session.user) {
@@ -11,6 +12,7 @@ export const getSessionUser = async () => {
 
         return {
             user: session.user,
+            // @ts-ignore
             userId: session.user.id
         }
     } catch (error) {

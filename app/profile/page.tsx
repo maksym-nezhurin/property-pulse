@@ -10,6 +10,7 @@ import {toast} from "react-toastify";
 
 export default async function ProfilePage() {
     const { data: session } = useSession();
+    // @ts-ignore
     const { email, id: userId, image, name} = session?.user || {};
     const profileImage = image || profileDefault;
     const profileName = name;
@@ -66,7 +67,7 @@ export default async function ProfilePage() {
         if (userId) {
             fetchUserProperties(userId)
         }
-    }, [session]);
+    }, [session, userId]);
     return (
       <section className="bg-blue-50">
           <div className="container m-auto py-24">

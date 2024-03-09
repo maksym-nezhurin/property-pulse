@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from "react";
+import React, {useState, useEffect, FormEvent} from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import { fetchProperty } from "@/utils/requests";
@@ -47,6 +47,7 @@ export const PropertyEditForm = () => {
             setFields((prevFields) => ({
                 ...prevFields,
                 [outerKey]: {
+                    // @ts-ignore
                     ...prevFields[outerKey],
                     [innerKey]: value
                 }
@@ -95,12 +96,15 @@ export const PropertyEditForm = () => {
                     const defaultRates = { ...propertyData.rates };
 
                     for (const rate in defaultRates) {
+                        // @ts-ignore
                         if (defaultRates[rate] === null) {
+                            // @ts-ignore
                             defaultRates[rate] = '';
                         }
                     }
                 }
 
+                // @ts-ignore
                 setFields(propertyData!);
             } catch (error) {
                 console.log(error);
@@ -110,11 +114,11 @@ export const PropertyEditForm = () => {
         }
 
         fetchPropertyData();
-    }, [])
+    }, [id])
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
+        const formData = new FormData(e.currentTarget);
 
         try {
             const res = await fetch(`/api/properties/${id}`, {

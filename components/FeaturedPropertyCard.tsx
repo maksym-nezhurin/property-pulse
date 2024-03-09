@@ -6,6 +6,7 @@ import {
 } from "react-icons/fa";
 import {IProperty} from "@/interfaces/IProperty";
 import {FaLocationDot} from "react-icons/fa6";
+import Image from "next/image";
 
 export const FeaturedPropertyCard = ({ property }: { property: IProperty }) => {
     const {
@@ -40,7 +41,7 @@ export const FeaturedPropertyCard = ({ property }: { property: IProperty }) => {
     return (<div
         className="bg-white rounded-xl shadow-md relative flex flex-col md:flex-row"
     >
-        <img
+        <Image
             src={images[0]}
             alt=""
             width={0}

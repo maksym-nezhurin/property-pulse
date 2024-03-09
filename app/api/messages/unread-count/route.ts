@@ -36,7 +36,8 @@ export const POST = async (request: NextRequest) => {
             return new Response(JSON.stringify('You must be logged in'), { status: 401 });
         }
 
-        const { user } = sessionUser;
+        // @ts-ignore
+        const { user }: { user: { id: string }} = sessionUser;
 
         if(user.id === recipient) {
             return new Response(JSON.stringify({ message: 'Can not send a message to yourself '}), { status: 400 })

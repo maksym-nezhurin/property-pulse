@@ -40,6 +40,7 @@ export const PropertyAddForm = () => {
             setFields((prevFields) => ({
                 ...prevFields,
                 [outerKey]: {
+                    // @ts-ignore
                     ...prevFields[outerKey],
                     [innerKey]: value
                 }

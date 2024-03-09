@@ -30,6 +30,7 @@ export const Message = (props: IMessage) => {
             if (res.status === 200) {
                 const {read} = await res.json();
                 setIsRead(read);
+                // @ts-ignore
                 setUnreadCount((state) => (
                     read ? state - 1 : state + 1
                 ));
@@ -53,6 +54,7 @@ export const Message = (props: IMessage) => {
             if (res.status === 200) {
                 toast.success('Message is deleted!')
                 setIsDeleted(true);
+                // @ts-ignore
                 setUnreadCount((state: number) => (state - 1)); // Fix it, if you remove it does not sync with DB
             } else {
                 toast.error('Message was not deleted!')

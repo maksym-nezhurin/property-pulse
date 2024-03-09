@@ -9,7 +9,9 @@ export const GET = async (request: NextRequest) => {
     try {
         await connectDB();
 
+        // @ts-ignore
         const page: number = request.nextUrl.searchParams.get('page') || 1;
+        // @ts-ignore
         const pageSize: number = request.nextUrl.searchParams.get('pagesize') || 3;
 
         const skip = (page - 1) * pageSize;
@@ -41,10 +43,9 @@ export const POST = async (request: NextRequest) => {
         const { userId } = sessionUser;
         const formData = await request.formData();
         const amenities = formData.getAll('amenities');
-        const images = formData
-            .getAll('images')
-            .filter((image) => image.name !== '');
-        console.log('image', images)
+        const images = formData.getAll('images') as File[];
+        const filteredImages = images.filter((image) => image.name !== '');
+
         // Create property data object for database
         const propertyData = {
             type: formData.get('type'),
@@ -76,7 +77,7 @@ export const POST = async (request: NextRequest) => {
 
         // Upload image(s) to Cloudinary
         const uploadedImages = [];
-        for (const image of images) {
+        for (const image of filteredImages) {
             const imageBuffer = await image.arrayBuffer();
             const imageArray = Array.from(new Uint8Array(imageBuffer));
             const imageData = Buffer.from(imageArray);

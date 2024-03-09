@@ -7,6 +7,7 @@ import {IProperty} from "@/interfaces/IProperty";
 
 export const BookmarkButton = ({property}: { property: IProperty}) => {
     const {data: session} = useSession();
+    // @ts-ignore
     const userId = session?.user?.id;
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [loading, setLoading] = useState(true);
