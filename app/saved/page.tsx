@@ -20,7 +20,6 @@ export default async function SavedPage()  {
                     const data = await res.json();
                     setProperties(data)
                 } else {
-                    console.log(res.statusText);
                     toast.error('Failed to fetch saved properties')
                 }
             } catch (error) {
