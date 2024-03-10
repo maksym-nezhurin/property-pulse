@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const InfoBox = (props: any) => {
 	const {
 		heading,
@@ -12,12 +14,12 @@ export const InfoBox = (props: any) => {
 			<p className="mt-2 mb-4">
 				{children}
 			</p>
-			<a
+			<Link
 				href={buttonInfo.link}
-				className={`${buttonInfo.backgroundColor} inline-block bg-black text-white rounded-lg px-4 py-2 hover:bg-gray-700`}
+				className={`${buttonInfo.backgroundColor} btn-black`}
 			>
 				{buttonInfo.text}
-			</a>
+			</Link>
 		</div>
 	)
 }

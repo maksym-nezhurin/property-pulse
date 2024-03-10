@@ -99,7 +99,7 @@ export const PropertyCard = (props: any) => {
 					</div>
 					<Link
 						href={`/properties/${_id}`}
-						className="h-[36px] bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-center text-sm"
+						className="btn-primary-small"
 					>
 						Details
 					</Link>

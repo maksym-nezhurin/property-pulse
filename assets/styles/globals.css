@@ -15,3 +15,17 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+@layer components {
+  .btn-primary {
+    @apply flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2;
+  }
+
+  .btn-black {
+    @apply inline-block bg-black text-white text-center rounded-lg px-4 py-2 hover:bg-gray-700;
+  }
+
+  .btn-primary-small {
+    @apply h-[36px] bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-center text-sm;
+  }
+}
