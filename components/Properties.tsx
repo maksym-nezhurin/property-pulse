@@ -10,8 +10,8 @@ import {Pagination} from "@/components/Pagination";
 export const Properties = () => {
     const [properties, setProperties] = useState<IProperty[]>([]);
     const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(2);
-    const [pageSize, setPageSize] = useState(3);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(6);
     const [totalItems, setTotalItems] = useState(0);
 
     const handlePageChange = (page: number) => {
@@ -22,7 +22,6 @@ export const Properties = () => {
         try {
             fetchProperties({ page, pageSize }).then((data) => {
                 const { properties, total} = data;
-                console.log(data)
                 // @ts-ignore
                 properties.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 

@@ -71,7 +71,7 @@ export const Message = (props: IMessage) => {
 
     return (
         <div
-            className="relative bg-white p-4 rounded-md shadow-md border border-gray-200"
+            className="relative bg-white p-4 rounded-md shadow-md border border-gray-200 my-4"
         >
             {!isRead && (
                 <div className="absolute top-2 right-2 bg-yellow-500 text-blue-50 px-2 py-1 rounded-md">New</div>
